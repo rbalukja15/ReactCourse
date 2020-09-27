@@ -11,13 +11,6 @@ import ChildrenProp from "./components/lecture4/ChildrenProp";
 import AddNewItemModal from "./components/lecture7/AddNewItemModal";
 import ShowDetails from "./components/lecture7/ShowDetails";
 
-// Fragments Demonstration
-import Table from "./components/lecture9/FragmentsDemonstration/Table";
-
-//Effect Demonstration
-import PersonWithEffect from "./components/lecture9/useEffect/PersonWithEffect"
-import moment from "moment";
-
 class App extends Component {
 
     constructor(props) {
@@ -27,16 +20,10 @@ class App extends Component {
 
     state = {
         items: [],
-        myData: {
-            name: 'MyName',
-            date: Date.now()
-        },
-        postId: null
     }
 
   componentDidMount() {
       this._getData();
-      this.inputElementRef.current.focus();
   }
 
   _getData = () => {
@@ -46,16 +33,9 @@ class App extends Component {
           });
   }
 
-    handleMyData = index => {
-
-        this.setState({
-            postId: index
-        });
-    }
-
   render() {
 
-    const { items, myData }  = this.state;
+    const { items }  = this.state;
 
       const columns = [
           "Name",
@@ -87,63 +67,20 @@ class App extends Component {
                   ]
       } )
 
-      const dataForUpdate = items.map( (item, index) => {
-          return (
-              <section
-                  key={item._id}
-                  onClick={() => this.handleMyData(item._id)}
-                  style={{ boxShadow: "3px 3px 3px 3px #9E9E9E", width: '200px' }}
-              >
-                  {/*<ShowDetails itemData={myData} />*/}
-                  <h1>{item.name}</h1>
-                  <p>{moment(item.date).calendar()}</p>
-                  <input type="text"
-                         ref={this.inputElementRef}
-                         style={{ marginBottom: "2rem" }}
-                  />
-              </section>
-          )
-      } )
-
     return (
       <div className="App">
         <AppNavbar>
             <AddNewItemModal
                 refreshTable={this._getData}
             />
-            {/*{*/}
-            {/*    data.length ? (<MUIDataTable*/}
-            {/*        title={"List of Items"}*/}
-            {/*        data={data}*/}
-            {/*        columns={columns}*/}
-            {/*        options={options}*/}
-            {/*    />) : null*/}
-            {/*}*/}
-            <Table />
-
-            {/*{dataForUpdate.splice(0,2)}*/}
-
-            {/*<section*/}
-            {/*    style={{ boxShadow: "3px 3px 3px 3px #9E9E9E", width: '200px' }}*/}
-            {/*>*/}
-            {/*    <h3>Section Data</h3>*/}
-            {/*    <input type={"text"}*/}
-            {/*           ref={this.inputElementRef}*/}
-            {/*           style={{ marginBottom: "2rem" }}*/}
-            {/*    />*/}
-            {/*    <ShowDetails postId={this.state.postId}/>*/}
-            {/*</section>*/}
-
-            <section
-                style={{ boxShadow: "3px 3px 3px 3px #9E9E9E", width: '200px' }}
-            >
-                <h3>Section Data</h3>
-                <input type={"text"}
-                       ref={this.inputElementRef}
-                       style={{ marginBottom: "2rem" }}
-                />
-                <PersonWithEffect postId={this.state.postId}/>
-            </section>
+            {
+                data.length ? (<MUIDataTable
+                    title={"List of Items"}
+                    data={data}
+                    columns={columns}
+                    options={options}
+                />) : null
+            }
         </AppNavbar>
       </div>
     );
