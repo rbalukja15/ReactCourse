@@ -20,12 +20,12 @@ export const getItems = () => dispatch => {
 
 //Action to get an item by id into the components
 export const getItemById = id => dispatch => {
-    axios
+    return axios
         .get(`/api/items/${id}`) //Send the id as defined in our back end api
         .then(res =>
             dispatch({
                 type: 'GET_ITEM_BY_ID', //Define the action
-                payload: id //Send the id as a payload
+                payload: res.data //Send the id as a payload
             })
         )
         .catch(err =>

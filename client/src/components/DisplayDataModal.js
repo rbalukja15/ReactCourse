@@ -1,30 +1,32 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { useTheme } from '@material-ui/core/styles';
 import {InputLabel, Input} from "@material-ui/core";
 import PropTypes from 'prop-types';
 import moment from "moment";
+import {getItemById} from "../redux/actions/itemActions";
+import {connect} from "react-redux";
 
-export default function DisplayDataModal(props) {
+function DisplayDataModal(props) {
     const [open, setOpen] = useState(false);
     const theme = useTheme();
     const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
     const [itemData, setItemData] = useState({});
 
     const handleClickOpen = () => {
-        setOpen(true);
-        setItemData(props.itemData);
+        props.getItemById(props.itemId).then((data) => {
+            setItemData(data.payload)
+            setOpen(true);
+        });
     };
 
     const handleClose = () => {
         setOpen(false);
-        setItemData(props.itemData);
     };
 
     const handleInputChange = e => {
@@ -59,7 +61,7 @@ export default function DisplayDataModal(props) {
 
                     <Input
                         name="name"
-                        value={itemData.name}
+                        defaultValue={itemData.name}
                         onChange={handleInputChange}
                         style={{ marginBottom: theme.spacing(2) }}
                     />
@@ -89,9 +91,17 @@ export default function DisplayDataModal(props) {
 }
 
 DisplayDataModal.propTypes = {
-    itemData: PropTypes.object.isRequired,
+    itemId: PropTypes.string.isRequired,
+
 }
 
 DisplayDataModal.defaultProps = {
-    itemData: {},
+    item: '',
 }
+
+// Allow to take the item actions and map them to the component props
+const mapDispatchToProps = {
+    getItemById,
+}
+
+export default connect(null, mapDispatchToProps)(DisplayDataModal);

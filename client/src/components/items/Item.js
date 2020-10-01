@@ -1,13 +1,10 @@
 import React, { Component } from 'react';
-import axios from 'axios';
 import MUIDataTable from "mui-datatables";
 import DisplayDataModal from "../DisplayDataModal";
-import DisplayDataModalClass from "../lecture7/DisplayDataModalClass";
 import AddNewItemModal from "../lecture7/AddNewItemModal";
-import ShowDetails from "../lecture7/ShowDetails";
 import {connect} from "react-redux"; 
 import {Button} from "@material-ui/core";
-import {getItems, deleteItem, addItem} from "../../redux/actions/itemActions";
+import {getItems, deleteItem, addItem, getItemById} from "../../redux/actions/itemActions";
 
 class Item extends Component {
     state = {
@@ -25,7 +22,7 @@ class Item extends Component {
     render() {
 
         const {items} = this.props;
-        console.log(this.props);
+
         const columns = [
             "Name",
             "Date",
@@ -48,11 +45,10 @@ class Item extends Component {
                 item.date,
                 <DisplayDataModal
                     key={item._id}
-                    itemData={item}
+                    itemId={item._id}
                 />,
                 <Button
                     variant={"outlined"}
-                    color={"danger"}
                     onClick={() => this.props.deleteItem(item._id)}
                 >
                     Delete
@@ -90,6 +86,7 @@ const mapDispatchToProps = {
     getItems,
     deleteItem,
     addItem,
+    getItemById,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Item);
