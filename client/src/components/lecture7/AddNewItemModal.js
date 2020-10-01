@@ -37,17 +37,19 @@ const AddNewItemModal = props => {
             name: name
         }
 
-        axios.post('/api/items', newItem)
-            .then(res => {
-                handleClose();
-                props.refreshTable();
-            })
+        props.addItem(newItem);
+        props.refreshTable();
+        handleClose();
     }
 
     return (
         <div>
-            <Button variant="outlined" color="primary" onClick={handleClickOpen} style={{ margin: theme.spacing(2) }}>
-                Display Data
+            <Button variant="outlined"
+                    color="primary"
+                    onClick={handleClickOpen}
+                    style={{ margin: theme.spacing(2) }}
+            >
+                Add an Item
             </Button>
 
             <Dialog

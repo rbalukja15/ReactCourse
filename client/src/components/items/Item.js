@@ -5,8 +5,9 @@ import DisplayDataModal from "../DisplayDataModal";
 import DisplayDataModalClass from "../lecture7/DisplayDataModalClass";
 import AddNewItemModal from "../lecture7/AddNewItemModal";
 import ShowDetails from "../lecture7/ShowDetails";
-import {connect} from "react-redux";
+import {connect} from "react-redux"; 
 import {Button} from "@material-ui/core";
+import {getItems, deleteItem, addItem} from "../../redux/actions/itemActions";
 
 class Item extends Component {
     state = {
@@ -14,28 +15,23 @@ class Item extends Component {
     }
 
     componentDidMount() {
-        //this._getData();
-        //this.props.getItems();
-        console.log(this.props.items);
-        this.setState({items: this.props.items})
+        this._getData();
     }
 
     _getData = () => {
-        axios.get('/api/items')
-            .then(res => {
-                this.setState({items: res.data})
-            });
+        this.props.getItems();
     }
 
     render() {
 
         const {items} = this.props;
-
+        console.log(this.props);
         const columns = [
             "Name",
             "Date",
-            "Actions",
-            "Class Action"
+            "Display Data",
+            "Delete",
+
         ];
 
         const options = {
@@ -46,27 +42,30 @@ class Item extends Component {
             }
         };
 
-        const data = items.map( item => {
-            return [
+        const data = items.map( item => (
+             [
                 item.name,
                 item.date,
                 <DisplayDataModal
                     key={item._id}
                     itemData={item}
                 />,
-                <DisplayDataModalClass
-                    key={item._id}
-                    itemData={item}
-                />
+                <Button
+                    variant={"outlined"}
+                    color={"danger"}
+                    onClick={() => this.props.deleteItem(item._id)}
+                >
+                    Delete
+                </Button>
             ]
-        } )
+        ) )
 
         return (
             <React.Fragment>
                 <AddNewItemModal
                     refreshTable={this._getData}
+                    addItem={this.props.addItem}
                 />
-                <Button onClick={() => this.props.getItems()} style={{marginTop: '100px'}}>Click For state update</Button>
                 {
                     data.length ? (<MUIDataTable
                         title={"List of Items"}
@@ -87,8 +86,10 @@ const mapStateToProps = state => ({
 });
 
 // Allow to take the item actions and map them to the component props
-const mapDispatchToProps = dispatch => ({
-    getItems: () => dispatch({type: 'GET_ITEMS'}),
-})
+const mapDispatchToProps = {
+    getItems,
+    deleteItem,
+    addItem,
+}
 
 export default connect(mapStateToProps, mapDispatchToProps)(Item);
