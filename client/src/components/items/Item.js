@@ -60,7 +60,6 @@ class Item extends Component {
             <React.Fragment>
                 <AddNewItemModal
                     refreshTable={this._getData}
-                    addItem={this.props.addItem}
                 />
                 {
                     data.length ? (<MUIDataTable

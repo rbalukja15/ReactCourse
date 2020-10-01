@@ -3,14 +3,13 @@ import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import PropTypes from 'prop-types';
 import {InputLabel, Input, FormControl} from "@material-ui/core";
-import moment from "moment";
 import {useTheme} from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
-import axios from "axios";
+import {connect} from "react-redux";
+import {addItem} from "../../redux/actions/itemActions";
 
 const AddNewItemModal = props => {
 
@@ -94,4 +93,9 @@ const AddNewItemModal = props => {
     );
 }
 
-export default AddNewItemModal;
+//Map dispatch to props
+const mapDispatchToProps = {
+    addItem
+}
+
+export default connect(null, mapDispatchToProps)(AddNewItemModal);
