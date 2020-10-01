@@ -5,7 +5,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import PropTypes from 'prop-types';
-import {InputLabel, Input, FormControl} from "@material-ui/core";
+import {InputLabel, Input, FormControl, Divider} from "@material-ui/core";
 import {useTheme} from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import {connect} from "react-redux";
@@ -14,7 +14,7 @@ import {addItem} from "../../redux/actions/itemActions";
 const AddNewItemModal = props => {
 
     const [open, setOpen] = useState(false);
-    const [name, setName] = useState('');
+    const [itemData, setItemData] = useState({});
 
     const theme = useTheme();
     const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
@@ -28,15 +28,19 @@ const AddNewItemModal = props => {
     };
 
     const handleInputChange = e => {
-        setName(e.target.value);
+        const value = e.target.value;
+        const name = e.target.name;
+
+        const newItemData = {
+            ...itemData,
+            [name]: value
+        }
+
+        setItemData(newItemData);
     }
 
     const handleSubmit = () => {
-        const newItem = {
-            name: name
-        }
-
-        props.addItem(newItem);
+        props.addItem(itemData);
         props.refreshTable();
         handleClose();
     }
@@ -58,34 +62,84 @@ const AddNewItemModal = props => {
                 aria-labelledby="responsive-dialog-title"
             >
                 <DialogTitle id="responsive-dialog-title">Display Item Data</DialogTitle>
+                <Divider/>
                 <DialogContent>
-                    <FormControl>
-                        <InputLabel id="name-label-id">
-                            Item Name:
-                        </InputLabel>
+                    <div>
+                        <FormControl>
+                            <InputLabel id="name-label-id">
+                                Item Name:
+                            </InputLabel>
 
-                        <Input
-                            name="name"
-                            onChange={handleInputChange}
-                            style={{ marginBottom: theme.spacing(2) }}
-                            placeholder={"Item name..."}
-                            required={true}
-                        />
-                        <Button
-                            variant={"outlined"}
-                            color={"primary"}
-                            onClick={handleSubmit}
-                        >
-                            Submit
-                        </Button>
-                    </FormControl>
+                            <Input
+                                name="name"
+                                onChange={handleInputChange}
+                                style={{ marginBottom: theme.spacing(2) }}
+                                placeholder={"Item name..."}
+                                required={true}
+                            />
+                        </FormControl>
+                    </div>
+                    <div>
+                        <FormControl>
+                            <InputLabel id="name-label-id">
+                                Origin:
+                            </InputLabel>
+
+                            <Input
+                                name="origin"
+                                onChange={handleInputChange}
+                                style={{ marginBottom: theme.spacing(2) }}
+                                placeholder={"Origin..."}
+                                required={true}
+                            />
+                        </FormControl>
+                    </div>
+                    <div>
+                        <FormControl>
+                            <InputLabel id="name-label-id">
+                                Price
+                            </InputLabel>
+
+                            <Input
+                                name="price"
+                                onChange={handleInputChange}
+                                style={{ marginBottom: theme.spacing(2) }}
+                                placeholder={"Price..."}
+                                required={true}
+                            />
+                        </FormControl>
+                    </div>
+                    <div>
+                        <FormControl>
+                            <InputLabel id="name-label-id">
+                                Quantity:
+                            </InputLabel>
+
+                            <Input
+                                name="quantity"
+                                onChange={handleInputChange}
+                                style={{ marginBottom: theme.spacing(2) }}
+                                placeholder={"Quantity..."}
+                                required={true}
+                            />
+                        </FormControl>
+                    </div>
                 </DialogContent>
+                <Divider/>
                 <DialogActions>
-                    <Button autoFocus onClick={handleClose} color="primary">
-                        Disagree
+                    <Button autoFocus
+                            onClick={handleClose}
+                            variant={"outlined"}
+                            color="primary"
+                    >
+                        Cancel
                     </Button>
-                    <Button onClick={handleClose} color="primary" autoFocus>
-                        Agree
+                    <Button
+                        variant={"outlined"}
+                        color={"primary"}
+                        onClick={handleSubmit}
+                    >
+                        Submit
                     </Button>
                 </DialogActions>
             </Dialog>

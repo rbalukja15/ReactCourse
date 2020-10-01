@@ -10,7 +10,8 @@ const Item = require('../../models/Item');
 // @desc    Get all items
 // @access  Public
 router.get('/' , (req, res) => {
-  Item.find()
+  Item.find({})
+      .select('name date')
       .sort( { date: -1 } ) //Sort descending
       .then(items => res.json(items))
       .catch(err => console.log(err));
@@ -21,7 +22,10 @@ router.get('/' , (req, res) => {
 // @access  Public
 router.post('/' , (req, res) => {
   const newItem = new Item({
-    name: req.body.name
+    name: req.body.name,
+    origin: req.body.origin,
+    price: req.body.price,
+    quantity: req.body.quantity
   });
 
   newItem.save().then(item => res.json(item));

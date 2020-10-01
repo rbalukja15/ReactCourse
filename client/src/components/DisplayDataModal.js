@@ -6,7 +6,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { useTheme } from '@material-ui/core/styles';
-import {InputLabel, Input} from "@material-ui/core";
+import {InputLabel, Input, FormControl} from "@material-ui/core";
 import PropTypes from 'prop-types';
 import moment from "moment";
 import {getItemById} from "../redux/actions/itemActions";
@@ -55,27 +55,76 @@ function DisplayDataModal(props) {
             >
                 <DialogTitle id="responsive-dialog-title">Display Item Data</DialogTitle>
                 <DialogContent>
-                    <InputLabel id="name-label-id">
-                        Item Name:
-                    </InputLabel>
+                    <div>
+                        <FormControl>
+                            <InputLabel id="name-label-id">
+                                Item Name:
+                            </InputLabel>
 
-                    <Input
-                        name="name"
-                        defaultValue={itemData.name}
-                        onChange={handleInputChange}
-                        style={{ marginBottom: theme.spacing(2) }}
-                    />
+                            <Input
+                                name="name"
+                                defaultValue={itemData.name}
+                                onChange={handleInputChange}
+                                style={{ marginBottom: theme.spacing(2) }}
+                            />
+                        </FormControl>
+                    </div>
+                    <div>
+                        <FormControl>
+                            <InputLabel id="name-label-id">
+                                Origin:
+                            </InputLabel>
 
-                    <InputLabel
-                        id="date-label-id"
-                    >
-                        Date
-                    </InputLabel>
-                    <Input
-                        name="date"
-                        defaultValue={moment(itemData.date).calendar()}
-                        readOnly={true}
-                    />
+                            <Input
+                                name="origin"
+                                onChange={handleInputChange}
+                                style={{ marginBottom: theme.spacing(2) }}
+                                defaultValue={itemData.origin}
+                            />
+                        </FormControl>
+                    </div>
+                    <div>
+                        <FormControl>
+                            <InputLabel id="name-label-id">
+                                Price
+                            </InputLabel>
+
+                            <Input
+                                name="price"
+                                onChange={handleInputChange}
+                                style={{ marginBottom: theme.spacing(2) }}
+                                defaultValue={itemData.price}
+                            />
+                        </FormControl>
+                    </div>
+                    <div>
+                        <FormControl>
+                            <InputLabel id="name-label-id">
+                                Quantity:
+                            </InputLabel>
+
+                            <Input
+                                name="quantity"
+                                onChange={handleInputChange}
+                                style={{ marginBottom: theme.spacing(2) }}
+                                defaultValue={itemData.quantity}
+                            />
+                        </FormControl>
+                    </div>
+                    <div>
+                        <FormControl>
+                            <InputLabel
+                                id="date-label-id"
+                            >
+                                Date
+                            </InputLabel>
+                            <Input
+                                name="date"
+                                defaultValue={moment(itemData.date).calendar()}
+                                readOnly={true}
+                            />
+                        </FormControl>
+                    </div>
                 </DialogContent>
                 <DialogActions>
                     <Button autoFocus onClick={handleClose} color="primary">
