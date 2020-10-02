@@ -6,56 +6,58 @@ import Divider from '@material-ui/core/Divider';
 import Drawer from '@material-ui/core/Drawer';
 import Hidden from '@material-ui/core/Hidden';
 import IconButton from '@material-ui/core/IconButton';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import MailIcon from '@material-ui/icons/Mail';
 import MenuIcon from '@material-ui/icons/Menu';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
+import MenuList from "@material-ui/core/MenuList";
+import MenuItem from "@material-ui/core/MenuItem";
+import { Link, withRouter } from "react-router-dom";
+import {compose} from "recompose";
+import {connect} from "react-redux";
+import {withStyles} from "@material-ui/core/styles";
 
 const drawerWidth = 240;
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    display: 'flex',
-  },
-  drawer: {
-    [theme.breakpoints.up('sm')]: {
-      width: drawerWidth,
-      flexShrink: 0,
+const styles = theme => ({
+    root: {
+        display: 'flex',
     },
-  },
-  appBar: {
-    zIndex: theme.zIndex.drawer + 1,
-  },
-  menuButton: {
-    marginRight: theme.spacing(2),
-    [theme.breakpoints.up('sm')]: {
-      display: 'none',
+    drawer: {
+        [theme.breakpoints.up('sm')]: {
+          width: drawerWidth,
+          flexShrink: 0,
+        },
     },
-  },
-  // necessary for content to be below app bar
-  toolbar: theme.mixins.toolbar,
-  drawerPaper: {
-    width: drawerWidth,
-  },
-  content: {
-    display: 'flex',
-    flexGrow: 1,
-    flexDirection: 'column',
-    padding: theme.spacing(3),
-    alignItems: 'center'
-  },
-}));
+    appBar: {
+        zIndex: theme.zIndex.drawer + 1,
+    },
+    menuButton: {
+        marginRight: 20,
+        [theme.breakpoints.up("md")]: {
+            display: "none"
+        },
+        float: "left",
+    },
+    menuItem: {
+        minHeight: "60px",
+    },
+    // necessary for content to be below app bar
+    toolbar: theme.mixins.toolbar,
+    drawerPaper: {
+        width: drawerWidth,
+    },
+    content: {
+        display: 'flex',
+        flexGrow: 1,
+        flexDirection: 'column',
+        padding: theme.spacing(3),
+        alignItems: 'center'
+    },
+});
 
 function AppNavbar(props) {
-  const { window } = props;
-  const classes = useStyles();
-  const theme = useTheme();
+  const { window, classes } = props;
+  const { location: {pathname} } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
 
   const handleDrawerToggle = () => {
@@ -68,23 +70,24 @@ function AppNavbar(props) {
           <div className={classes.toolbar} />
       </Hidden>
       <Divider />
-      <List>
-        {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-          <ListItem button key={text}>
-            <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-            <ListItemText primary={text} />
-          </ListItem>
-        ))}
-      </List>
-      <Divider />
-      <List>
-        {['All mail', 'Trash', 'Spam'].map((text, index) => (
-          <ListItem button key={text}>
-            <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-            <ListItemText primary={text} />
-          </ListItem>
-        ))}
-      </List>
+        <MenuList>
+            <MenuItem
+                component={Link}
+                className={classes.menuItem}
+                to="/"
+                selected={"/" === pathname}
+            >
+                Home
+            </MenuItem>
+            <MenuItem
+                component={Link}
+                className={classes.menuItem}
+                to="/invoice"
+                selected={"/invoice" === pathname}
+            >
+                Invoice
+            </MenuItem>
+        </MenuList>
     </div>
   );
 
@@ -157,4 +160,8 @@ AppNavbar.propTypes = {
   window: PropTypes.func,
 };
 
-export default AppNavbar;
+export default compose(
+    withRouter,
+    withStyles(styles, { withTheme: true }),
+    connect(null, null)
+)(AppNavbar);
