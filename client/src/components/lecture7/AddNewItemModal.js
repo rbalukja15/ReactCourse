@@ -10,6 +10,8 @@ import {useTheme} from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import {connect} from "react-redux";
 import {addItem} from "../../redux/actions/itemActions";
+import {Form, Formik} from "formik";
+import FormGroup from "@material-ui/core/FormGroup";
 
 const AddNewItemModal = props => {
 
@@ -39,8 +41,9 @@ const AddNewItemModal = props => {
         setItemData(newItemData);
     }
 
-    const handleSubmit = () => {
-        props.addItem(itemData);
+    const handleSubmit = values => {
+        console.log(values);
+        props.addItem(values);
         props.refreshTable();
         handleClose();
     }
@@ -64,66 +67,93 @@ const AddNewItemModal = props => {
                 <DialogTitle id="responsive-dialog-title">Display Item Data</DialogTitle>
                 <Divider/>
                 <DialogContent>
-                    <div>
-                        <FormControl>
-                            <InputLabel id="name-label-id">
-                                Item Name:
-                            </InputLabel>
+                    <Formik initialValues={{ name: "", origin: "", price: "", quantity: "" }}
+                            onSubmit={handleSubmit}
+                            validate={values => {
+                                const errors = {};
 
-                            <Input
-                                name="name"
-                                onChange={handleInputChange}
-                                style={{ marginBottom: theme.spacing(2) }}
-                                placeholder={"Item name..."}
-                                required={true}
-                            />
-                        </FormControl>
-                    </div>
-                    <div>
-                        <FormControl>
-                            <InputLabel id="name-label-id">
-                                Origin:
-                            </InputLabel>
+                                if (!values.name)
+                                    errors.name = "Name Required"
 
-                            <Input
-                                name="origin"
-                                onChange={handleInputChange}
-                                style={{ marginBottom: theme.spacing(2) }}
-                                placeholder={"Origin..."}
-                                required={true}
-                            />
-                        </FormControl>
-                    </div>
-                    <div>
-                        <FormControl>
-                            <InputLabel id="name-label-id">
-                                Price
-                            </InputLabel>
+                                return errors;
+                            }}
+                    >{({
+                           values,
+                           touched,
+                           handleChange,
+                           handleBlur,
+                           handleSubmit,
+                           isSubmitting,
+                           isValid,
+                           errors
+                       }) => (
+                        <Form>
+                            <FormGroup>
+                                <FormControl>
+                                    <InputLabel id="name-label-id">
+                                        Item Name:
+                                    </InputLabel>
 
-                            <Input
-                                name="price"
-                                onChange={handleInputChange}
-                                style={{ marginBottom: theme.spacing(2) }}
-                                placeholder={"Price..."}
-                                required={true}
-                            />
-                        </FormControl>
-                    </div>
-                    <div>
-                        <FormControl>
-                            <InputLabel id="name-label-id">
-                                Quantity:
-                            </InputLabel>
+                                    <Input
+                                        name="name"
+                                        onChange={handleChange}
+                                        style={{ marginBottom: theme.spacing(2) }}
+                                        value={values.name}
+                                        onBlur={handleBlur}
+                                    />
 
-                            <Input
-                                name="quantity"
-                                onChange={handleInputChange}
-                                style={{ marginBottom: theme.spacing(2) }}
-                                placeholder={"Quantity..."}
-                                required={true}
-                            />
-                        </FormControl>
-                    </div>
+                                    <span style={{ color: 'red' }}>{(errors.name && touched.name) ? errors.name : ''}</span>
+                                </FormControl>
+                                <FormControl>
+                                    <InputLabel id="name-label-id">
+                                        Origin:
+                                    </InputLabel>
+
+                                    <Input
+                                        name="origin"
+                                        onChange={handleChange}
+                                        style={{ marginBottom: theme.spacing(2) }}
+                                        value={values.origin}
+                                        onBlur={handleBlur}
+                                    />
+                                </FormControl>
+                                <FormControl>
+                                    <InputLabel id="name-label-id">
+                                        Price
+                                    </InputLabel>
+
+                                    <Input
+                                        name="price"
+                                        onChange={handleChange}
+                                        style={{ marginBottom: theme.spacing(2) }}
+                                        value={values.price}
+                                        onBlur={handleBlur}
+                                    />
+                                </FormControl>
+                                <FormControl>
+                                    <InputLabel id="name-label-id">
+                                        Quantity:
+                                    </InputLabel>
+
+                                    <Input
+                                        name="quantity"
+                                        onChange={handleChange}
+                                        style={{ marginBottom: theme.spacing(2) }}
+                                        value={values.quantity}
+                                        onBlur={handleBlur}
+                                    />
+                                </FormControl>
+                                <Button type="submit"
+                                        variant={"outlined"}
+                                        color={"primary"}
+                                        disabled={isSubmitting || !isValid}
+                                >
+                                    Submit
+                                </Button>
+                            </FormGroup>
+                        </Form>
+                        )}
+                    </Formik>
                 </DialogContent>
                 <Divider/>
                 <DialogActions>
@@ -133,13 +163,6 @@ const AddNewItemModal = props => {
                             color="primary"
                     >
                         Cancel
-                    </Button>
-                    <Button
-                        variant={"outlined"}
-                        color={"primary"}
-                        onClick={handleSubmit}
-                    >
-                        Submit
                     </Button>
                 </DialogActions>
             </Dialog>
