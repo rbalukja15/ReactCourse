@@ -4,10 +4,12 @@ const config = require('config');
 
 //Require api routes
 const items = require('./routes/api/items');
+const users = require('./routes/api/users');
+const auth = require('./routes/api/auth');
 
 const app = express(); //Initialize express
 
-app.use(express.json()); //json parser middleware
+app.use(express.json({extended: false})); //json parser middleware
 
 // DB Config
 const db = config.get('mongoURI');
@@ -16,7 +18,8 @@ const db = config.get('mongoURI');
 mongoose
   .connect( db, {
     useNewUrlParser: true, //Url string parser
-    useUnifiedTopology: true //Server discovery engine         
+    useUnifiedTopology: true, //Server discovery engine,
+    useCreateIndex: true
   } )
   .then(console.log("MongoDB connected successfully"))
   .catch(err => console.log(err));      
@@ -24,7 +27,8 @@ mongoose
 
 //Use routes
 app.use('/api/items', items); //Anything that hits /api/items should respond to items routes
-
+app.use('/api/users', users);
+app.use('/api/auth', auth);
 
 //check for the environment port
 const port = process.env.PORT || 5000;
