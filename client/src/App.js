@@ -1,28 +1,27 @@
 import React, { Component } from 'react';
 import './App.css';
 //Navigation
-import AppNavbar from './components/navigation/AppNavbar';
 import { Provider } from "react-redux";
 import store from "./store";
 import Item from "./components/items/Item";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
-import Invoice from "./components/invoice/Invoice";
+import PrivateLayout from "./components/layouts/PrivateLayout";
+import PublicLayout from "./components/layouts/PublicLayout";
+import Login from "./components/login/Login";
 
 class App extends Component {
 
   render() {
     return (
         <Provider store={store}>
-            <BrowserRouter>
-                <div className="App">
-                    <AppNavbar>
-                        <Switch>
-                            <Route exact path={"/"} component={Item}/>
-                            <Route exact path={"/invoice"} component={Invoice}/>
-                        </Switch>
-                    </AppNavbar>
-                </div>
-            </BrowserRouter>
+            <div className="App">
+                <BrowserRouter>
+                    <Switch>
+                        <Route path="/" component={PrivateLayout}/>
+                        <Route path="/app" component={Login}/>
+                    </Switch>
+                </BrowserRouter>
+            </div>
         </Provider>
     );
   }

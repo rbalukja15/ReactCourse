@@ -77,7 +77,7 @@ class Item extends Component {
 //Mapping function
 //Allow to take the items state and maps it into a component property
 const mapStateToProps = state => ({
-    items: state.items,
+    items: state.item.items,
 });
 
 // Allow to take the item actions and map them to the component props

@@ -114,7 +114,8 @@ function AppNavbar(props) {
         </Toolbar>
       </AppBar>
       <nav className={classes.drawer} aria-label="mailbox folders">
-        {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
+          {props.isAuthenticated ? (
+              <React.Fragment>
         <Hidden smUp implementation="css">
           <Drawer
             container={container}
@@ -142,6 +143,8 @@ function AppNavbar(props) {
             {drawer}
           </Drawer>
         </Hidden>
+              </React.Fragment>
+              ) : null }
       </nav>
       <main className={classes.content}>
         <div className={classes.toolbar} />
@@ -160,8 +163,12 @@ AppNavbar.propTypes = {
   window: PropTypes.func,
 };
 
+const mapStateToProps = state => ({
+    isAuthenticated: state.auth.isAuthenticated,
+});
+
 export default compose(
     withRouter,
     withStyles(styles, { withTheme: true }),
-    connect(null, null)
+    connect(mapStateToProps, null)
 )(AppNavbar);
