@@ -14,7 +14,7 @@ const Login = props => {
     };
 
     return (
-        <div>
+        <div style={{ width: '100%', height: '100%' }}>
             <div>
                 <h1>Login</h1>
                 <Formik
@@ -31,9 +31,9 @@ const Login = props => {
                     }}
                 >
                     {(props) => (
-                        <Form>
+                        <Form style={{ maxWidth: '25rem', marginTop: 'auto' }}>
                             <FormGroup>
-                                <FormControl>
+                                <FormControl style={{ marginBottom: '2rem' }}>
                                     <InputLabel id="emailLabel">Email</InputLabel>
                                     <Input
                                         name="email"
@@ -44,7 +44,7 @@ const Login = props => {
                                     />
                                 </FormControl>
                                 <span style={{ color: 'red' }}>{props.errors.email ? props.errors.email : ''}</span>
-                                <FormControl>
+                                <FormControl style={{ marginBottom: '2rem' }}>
                                     <InputLabel id="passwordLabel">Password</InputLabel>
                                     <Input
                                         name="password"
@@ -58,7 +58,7 @@ const Login = props => {
                                     type="submit"
                                     variant={'outlined'}
                                     color={'primary'}
-                                    disabled={props.isSubmitting && !props.isValid}
+                                    disabled={props.isSubmitting || !props.isValid}
                                 >
                                     Submit
                                 </Button>

@@ -12,11 +12,11 @@ const PrivateLayout = (props) => {
         <div>
             <AppNavbar>
                 {props.isAuthenticated ? (
-                    <Switch>
-                        <Route exact path="/" component={Item} />
-                        <Route exact path="/invoice" component={Invoice} />
-                        <Route path="*" component={Item} />
-                    </Switch>
+                        <Switch>
+                            <Route exact path="/" component={Item} />
+                            <Route exact path="/invoice" component={Invoice} />
+                            <Route path="*" component={Item} />
+                        </Switch>
                 ) : (
                     <Redirect to="/app/login" from="/"/>
                 )}

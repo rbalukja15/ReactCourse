@@ -10,7 +10,9 @@ const PublicLayout = (props) => {
         return (
             <div>
                 <AppNavbar>
-                    <Login />
+                    <Switch>
+                        <Route exact path="/app/login" component={Login} />
+                    </Switch>
                 </AppNavbar>
             </div>
         );
