@@ -11,14 +11,14 @@ const PrivateLayout = (props) => {
     return (
         <div>
             <AppNavbar>
-                {props.isAuthenticated ? (
+                {(props.isAuthenticated || props.isLoading)? (
                         <Switch>
                             <Route exact path="/" component={Item} />
                             <Route exact path="/invoice" component={Invoice} />
                             <Route path="*" component={Item} />
                         </Switch>
                 ) : (
-                    <Redirect to="/app/login" from="/"/>
+                    <Redirect to="/app/login"/>
                 )}
             </AppNavbar>
         </div>
@@ -27,6 +27,7 @@ const PrivateLayout = (props) => {
 
 const mapStateToProps = state => ({
     isAuthenticated: state.auth.isAuthenticated,
+    isLoading: state.auth.isLoading,
 });
 
 export default compose(withRouter, connect(mapStateToProps, null))(PrivateLayout);

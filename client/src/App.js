@@ -13,10 +13,6 @@ const history = createBrowserHistory();
 
 class App extends Component {
 
-    componentDidMount() {
-        store.dispatch(loadUser());
-    }
-
     render() {
     return (
         <Router history={history}>
@@ -24,8 +20,8 @@ class App extends Component {
                 <div className="App">
                     <BrowserRouter>
                         <Switch>
-                            <Route path="/" component={PrivateLayout}/>
                             <Route path="/app" component={PublicLayout}/>
+                            <Route path="/" component={PrivateLayout}/>
                         </Switch>
                     </BrowserRouter>
                 </div>

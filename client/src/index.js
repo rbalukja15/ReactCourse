@@ -4,6 +4,8 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import axios from 'axios'
+import store from "./store";
+import {loadUser} from "./redux/actions/authActions";
 
 // axios.interceptors.request.use( request => {
 //     console.log(request);
@@ -12,6 +14,8 @@ import axios from 'axios'
 //     console.log(error);
 //     return Promise.reject(error);
 // } )
+
+store.dispatch(loadUser());
 
 ReactDOM.render(
     <App />,
