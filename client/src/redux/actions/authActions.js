@@ -84,10 +84,9 @@ export const login = ({ email, password }) => dispatch => {
 }
 
 // Logout User
-export const logout = () => {
-    return {
-        type: LOGOUT_SUCCESS
-    };
+export const logout = () => dispatch => {
+    dispatch({ type: 'FLUSH_ITEMS' })
+    dispatch({ type: LOGOUT_SUCCESS })
 };
 
 // Setup config/headers and token

@@ -53,6 +53,11 @@ export default function (state=initialState, action) {
                 ...state,
                 loading: true //If yes, change the state of loading
             }
+        case 'FLUSH_ITEMS':
+            return {
+                ...state,
+                items: []
+            }
 
         default:
             return state;

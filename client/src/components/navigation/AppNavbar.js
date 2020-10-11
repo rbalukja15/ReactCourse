@@ -15,6 +15,8 @@ import { Link, withRouter } from "react-router-dom";
 import {compose} from "recompose";
 import {connect} from "react-redux";
 import {withStyles} from "@material-ui/core/styles";
+import {Button} from "@material-ui/core";
+import {logout} from "../../redux/actions/authActions";
 
 const drawerWidth = 240;
 
@@ -52,6 +54,15 @@ const styles = theme => ({
         flexDirection: 'column',
         padding: theme.spacing(3),
         alignItems: 'center'
+    },
+    auth: {
+        borderRadius: 7,
+        width: '50px',
+        color: 'white',
+    },
+    typography: {
+        float: "left",
+        flexGrow: 1
     },
 });
 
@@ -108,9 +119,14 @@ function AppNavbar(props) {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap>
+          <Typography variant="h6" noWrap className={classes.typography}>
             Responsive drawer
           </Typography>
+            { props.isAuthenticated ?
+              <div className={classes.auth}>
+                  <Button style={{ color: 'white' }} onClick={props.logout}>Logout</Button>
+              </div>
+           : null }
         </Toolbar>
       </AppBar>
       <nav className={classes.drawer} aria-label="mailbox folders">
@@ -167,8 +183,12 @@ const mapStateToProps = state => ({
     isAuthenticated: state.auth.isAuthenticated,
 });
 
+const mapDispatchToProps = {
+    logout
+}
+
 export default compose(
     withRouter,
     withStyles(styles, { withTheme: true }),
-    connect(mapStateToProps, null)
+    connect(mapStateToProps, mapDispatchToProps)
 )(AppNavbar);
