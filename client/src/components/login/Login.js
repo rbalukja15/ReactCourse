@@ -5,8 +5,22 @@ import { login } from '../../redux/actions/authActions';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { clearErrors } from "../../redux/actions/errorActions";
+import * as Yup from 'yup';
+
+const validationSchema = Yup.object().shape({
+    email: Yup
+        .string()
+        .email()
+        .required('Email is required'),
+    password: Yup
+        .string()
+        .min(6, 'Password must be at least 6 characters long')
+        .max(24, 'Password must be at max 24 characters long')
+        .required('Password is required')
+});
 
 const Login = props => {
+
     const initialValues = { email: '', password: '' };
 
     const handleSubmit = values => {
@@ -20,15 +34,7 @@ const Login = props => {
                 <Formik
                     initialValues={initialValues}
                     onSubmit={handleSubmit}
-                    validate={values => {
-                        let errors = {};
-                        if (!values.email) {
-                            errors.email = 'Required';
-                        } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)) {
-                            errors.email = 'Invalid email address';
-                        }
-                        return errors;
-                    }}
+                    validationSchema={validationSchema}
                 >
                     {(props) => (
                         <Form style={{ maxWidth: '25rem', marginTop: 'auto' }}>
@@ -42,8 +48,8 @@ const Login = props => {
                                         onBlur={props.handleBlur}
                                         value={props.values.email}
                                     />
+                                    <span style={{ color: 'red', marginTop: '0.5rem' }}>{(props.errors.email && props.touched.email) ? props.errors.email : ''}</span>
                                 </FormControl>
-                                <span style={{ color: 'red' }}>{props.errors.email ? props.errors.email : ''}</span>
                                 <FormControl style={{ marginBottom: '2rem' }}>
                                     <InputLabel id="passwordLabel">Password</InputLabel>
                                     <Input
@@ -53,12 +59,13 @@ const Login = props => {
                                         onBlur={props.handleBlur}
                                         value={props.values.password}
                                     />
+                                    <span style={{ color: 'red', marginTop: '0.5rem' }}>{(props.errors.password && props.touched.password) ? props.errors.password : ''}</span>
                                 </FormControl>
                                 <Button
                                     type="submit"
                                     variant={'outlined'}
                                     color={'primary'}
-                                    disabled={props.isSubmitting || !props.isValid}
+                                    disabled={props.isSubmitting || !(props.isValid && props.dirty )}
                                 >
                                     Submit
                                 </Button>
