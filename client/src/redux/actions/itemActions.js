@@ -1,6 +1,7 @@
 //Define item actions
 import { GET_ITEMS, ADD_ITEM, DELETE_ITEM, ITEMS_LOADING, GET_ITEM_BY_ID, UPDATE_ITEM } from "./types";
 import axios from "axios";
+import {alertActions} from "./alertActions";
 
 //Action to get the items into the component
 export const getItems = () => dispatch => {
@@ -38,11 +39,13 @@ export const getItemById = id => dispatch => {
 export const addItem = item => dispatch => {
     axios
         .post("/api/items", item) //Post the data from the modal into the api
-        .then(res =>
-            dispatch({
-                type: ADD_ITEM, //Define the action
-                payload: res.data //Send as a payload
-            })
+        .then(res => {
+                dispatch({
+                    type: ADD_ITEM, //Define the action
+                    payload: res.data //Send as a payload
+                });
+                dispatch(alertActions.success('Item added successfully'))
+            }
         )
         .catch(err =>
             console.log(err)
@@ -53,11 +56,13 @@ export const addItem = item => dispatch => {
 export const deleteItem = id => dispatch => {
     axios
         .delete(`/api/items/${id}`) //Send the id as defined in our back end api
-        .then(res =>
-            dispatch({
-                type: DELETE_ITEM, //Define the action
-                payload: id //Send the id as a payload
-            })
+        .then(res => {
+                dispatch({
+                    type: DELETE_ITEM, //Define the action
+                    payload: id //Send the id as a payload
+                });
+                dispatch(alertActions.success('Item deleted successfully'))
+            }
         )
         .catch(err =>
             console.log(err)

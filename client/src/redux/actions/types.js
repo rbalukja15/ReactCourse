@@ -19,3 +19,11 @@ export const REGISTER_FAIL = "REGISTER_FAIL";
 //Error types
 export const GET_ERRORS = 'GET_ERRORS';
 export const CLEAR_ERRORS = 'CLEAR_ERRORS';
+
+export const alertConstants = {
+    State: {
+        SUCCESS: 'ALERT_SUCCESS',
+            ERROR: 'ALERT_ERROR',
+            CLEAR: 'ALERT_CLEAR',
+    }
+}

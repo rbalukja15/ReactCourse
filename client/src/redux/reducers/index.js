@@ -2,8 +2,10 @@
 import { combineReducers } from 'redux';
 import itemReducer from "./itemReducer";
 import authReducer from "./authReducer";
+import {alertReducer} from "./alertReducer";
 
 export default combineReducers({
     item: itemReducer,
-    auth: authReducer
+    auth: authReducer,
+    alert: alertReducer,
 })

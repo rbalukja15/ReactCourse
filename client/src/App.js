@@ -8,8 +8,12 @@ import PrivateLayout from "./components/layouts/PrivateLayout";
 import PublicLayout from "./components/layouts/PublicLayout";
 import { createBrowserHistory } from 'history';
 import {loadUser} from "./redux/actions/authActions";
+import {toast} from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 const history = createBrowserHistory();
+
+toast.configure();
 
 class App extends Component {
 
