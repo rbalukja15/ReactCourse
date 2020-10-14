@@ -2,6 +2,8 @@ const express = require('express');
 const mongoose = require('mongoose');
 const config = require('config');
 
+const path = require('path');
+
 //Require api routes
 const items = require('./routes/api/items');
 const users = require('./routes/api/users');
@@ -29,6 +31,16 @@ mongoose
 app.use('/api/items', items); //Anything that hits /api/items should respond to items routes
 app.use('/api/users', users);
 app.use('/api/auth', auth);
+
+// Serve static assets in production
+if (process.env.NODE_ENV === 'production') {
+    // Set static folder
+    app.use(express.static('client/build'));
+
+    app.get('*', (req, res) => {
+      res.sendFile(path.resolve(__dirname, 'client/build', 'index.html'));
+    });
+}
 
 //check for the environment port
 const port = process.env.PORT || 5000;
